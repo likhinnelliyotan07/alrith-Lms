@@ -24,19 +24,27 @@ class SharedScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // Default design size
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
+        final isTablet = MediaQuery.of(context).size.width >= 600;
+
         return Scaffold(
           appBar: appBar != null ? PreferredSize(
             preferredSize: Size.fromHeight(60.h),
             child: appBar!,
           ) : null,
-          drawer: drawer,
-          body: body,
+          drawer: isTablet ? null : drawer,
+          body: Row(
+            children: [
+              if (isTablet && drawer != null)
+                drawer!,
+              Expanded(child: body),
+            ],
+          ),
           floatingActionButton: floatingActionButton,
-          bottomNavigationBar: bottomNavigationBar,
+          bottomNavigationBar: isTablet ? null : bottomNavigationBar,
           backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
           extendBodyBehindAppBar: extendBodyBehindAppBar,
         );
@@ -44,3 +52,4 @@ class SharedScaffold extends StatelessWidget {
     );
   }
 }
+

@@ -9,6 +9,15 @@ class AppStrings {
   static const String forgotPassword = 'Forgot Password?';
   static const String dontHaveAccount = "Don't have an account?";
   static const String signUp = 'Sign Up';
+  static const String phoneLabel = 'Phone Number';
+  static const String otpLabel = 'OTP';
+  static const String loginWithPhone = 'Login with Phone';
+  static const String loginWithEmail = 'Login with Email';
+  static const String orContinueWith = 'Or continue with';
+  static const String sendOTP = 'Send OTP';
+  static const String verifyOTP = 'Verify OTP';
+  static const String signInWithGoogle = 'Sign in with Google';
+  static const String signInWithApple = 'Sign in with Apple';
 
   // Admin Specific
   static const String adminDashboard = 'Admin Dashboard';

@@ -1,26 +1,63 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import '../widgets/premium_login_view.dart';
+import '../auth/bloc/auth_bloc.dart';
+import '../auth/bloc/auth_event.dart';
+import '../auth/bloc/auth_state.dart';
 
-@lazySingleton
 class AppRouter {
+
+  final AuthBloc _authBloc;
+  final List<RouteBase> _extraRoutes;
+
+  AppRouter(this._authBloc, {List<RouteBase> extraRoutes = const []}) : _extraRoutes = extraRoutes;
+
   late final GoRouter router = GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/',
+    refreshListenable: _AuthBlocListenable(_authBloc),
+    redirect: (context, state) {
+      final authState = _authBloc.state;
+      final loggingIn = state.matchedLocation == '/login';
+
+      if (authState is Unauthenticated || authState is AuthInitial) {
+        return loggingIn ? null : '/login';
+      }
+
+      if (authState is Authenticated) {
+        if (loggingIn) return '/';
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/login',
-        builder: (context, state) => PremiumLoginView(
-          onLogin: () => context.go('/'),
+        builder: (context, state) => BlocBuilder<AuthBloc, AuthState>(
+          bloc: _authBloc,
+          builder: (context, authState) {
+            return PremiumLoginView(
+              isLoading: authState is AuthLoading,
+              onEmailLogin: (email, password) => _authBloc.add(AuthLoggedIn(email, password)),
+              onPhoneSignIn: (phone) => _authBloc.add(AuthPhoneSignInRequested(phone)),
+              onVerifyOTP: (phone, otp) => _authBloc.add(AuthOTPVerifyRequested(phone, otp)),
+              onGoogleLogin: () => _authBloc.add(AuthGoogleSignInRequested()),
+              onAppleLogin: () => _authBloc.add(AuthAppleSignInRequested()),
+            );
+          },
         ),
       ),
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Arlith LMS Root')),
-        ),
-      ),
+      ..._extraRoutes,
     ],
   );
 }
+
+
+class _AuthBlocListenable extends ChangeNotifier {
+  _AuthBlocListenable(AuthBloc bloc) {
+    bloc.stream.listen((_) => notifyListeners());
+  }
+}
+
 

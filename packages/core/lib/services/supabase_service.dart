@@ -17,4 +17,16 @@ class SupabaseService {
   
   SupabaseQueryBuilder from(String table) => client.from(table);
 
+  // Storage Helpers
+  SupabaseStorageClient get storage => client.storage;
+  
+  String getPublicUrl(String bucket, String path) {
+    return storage.from(bucket).getPublicUrl(path);
+  }
+
+  // Realtime Helpers
+  Stream<List<Map<String, dynamic>>> subscribeToTable(String table) {
+    return client.from(table).stream(primaryKey: ['id']);
+  }
 }
+
