@@ -10,7 +10,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<LoadCourses>((event, emit) async {
       emit(CourseLoading());
       try {
-        final courses = await _repository.getCourses('arlith-default');
+        final courses = await _repository.getCourses();
         emit(CoursesLoaded(courses));
       } catch (e) {
         emit(CourseFailure(e.toString()));

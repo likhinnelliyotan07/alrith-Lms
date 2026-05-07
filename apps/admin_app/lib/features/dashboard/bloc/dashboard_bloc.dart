@@ -10,7 +10,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<LoadDashboardStats>((event, emit) async {
       emit(DashboardLoading());
       try {
-        final stats = await _adminRepository.getDashboardStats('arlith-default');
+        final stats = await _adminRepository.getDashboardStats();
         emit(DashboardLoaded(stats));
       } catch (e) {
         emit(DashboardError(e.toString()));

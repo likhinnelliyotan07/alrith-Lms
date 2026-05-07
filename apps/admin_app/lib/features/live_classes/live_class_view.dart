@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/live_class_bloc.dart';
 import 'bloc/live_class_event.dart';
 import 'bloc/live_class_state.dart';
+import 'widgets/schedule_class_dialog.dart';
 
 class LiveClassView extends StatelessWidget {
   const LiveClassView({super.key});
@@ -24,7 +25,18 @@ class LiveClassView extends StatelessWidget {
               width: 160.w,
               height: 40.h,
               borderRadius: 8,
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (dlgContext) => ScheduleClassDialog(
+                    repository: getIt<AdminRepository>(),
+                    onSuccess: () {
+                      Navigator.pop(dlgContext);
+                      context.read<LiveClassBloc>().add(LoadLiveClasses());
+                    },
+                  ),
+                );
+              },
               icon: const Icon(Icons.add_rounded, color: Colors.white, size: 18),
             ),
             SizedBox(width: 16.w),

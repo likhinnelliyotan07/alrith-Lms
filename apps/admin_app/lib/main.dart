@@ -1,6 +1,7 @@
 import 'package:core/network/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:core/core.dart';
 import 'di/injection.dart' as admin_di;
 import 'di/injection.dart';
@@ -17,22 +18,29 @@ class AdminApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: getIt<ThemeCubit>()),
-        BlocProvider.value(value: getIt<AuthBloc>()..add(AuthCheckRequested())),
-      ],
-      child: BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, state) {
-          final router = admin_di.getIt<AppRouter>().router;
-          return MaterialApp.router(
-            title: AppStrings.adminDashboard,
-            theme: state.themeData,
-            routerConfig: router,
-            debugShowCheckedModeBanner: false,
-          );
-        },
-      ),
+    return ScreenUtilInit(
+      designSize: const Size(1440, 900), // Standard desktop/web design size
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: getIt<ThemeCubit>()),
+            BlocProvider.value(value: getIt<AuthBloc>()..add(AuthCheckRequested())),
+          ],
+          child: BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, state) {
+              final router = admin_di.getIt<AppRouter>().router;
+              return MaterialApp.router(
+                title: AppStrings.adminDashboard,
+                theme: state.themeData,
+                routerConfig: router,
+                debugShowCheckedModeBanner: false,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

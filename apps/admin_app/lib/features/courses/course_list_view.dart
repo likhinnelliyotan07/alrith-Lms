@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'bloc/course_bloc.dart';
 import 'bloc/course_event.dart';
 import 'bloc/course_state.dart';
+import 'widgets/create_course_dialog.dart';
 
 class CourseListView extends StatelessWidget {
   const CourseListView({super.key});
@@ -68,7 +69,16 @@ class CourseListView extends StatelessWidget {
           height: 54.h,
           icon: const Icon(Icons.add_rounded, color: Colors.white),
           onPressed: () {
-            // Navigate to Create Course View or Show Dialog
+            showDialog(
+              context: context,
+              builder: (dlgContext) => CreateCourseDialog(
+                repository: getIt<AdminRepository>(),
+                onSuccess: () {
+                  Navigator.pop(dlgContext);
+                  context.read<CourseBloc>().add(LoadCourses());
+                },
+              ),
+            );
           },
         ),
       ],

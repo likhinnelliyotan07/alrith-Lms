@@ -10,7 +10,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<LoadStudents>((event, emit) async {
       emit(StudentLoading());
       try {
-        final students = await _adminRepository.getStudents('arlith-default');
+        final students = await _adminRepository.getStudents();
         if (event.query.isNotEmpty) {
           final filtered = students.where((s) => s.fullName.toLowerCase().contains(event.query.toLowerCase())).toList();
           emit(StudentsLoaded(filtered));

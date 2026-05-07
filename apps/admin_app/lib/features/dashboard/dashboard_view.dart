@@ -10,12 +10,34 @@ import 'bloc/dashboard_event.dart';
 import 'bloc/dashboard_state.dart';
 import 'widgets/stat_card.dart';
 import 'widgets/revenue_chart.dart';
+import 'widgets/organization_setup_dialog.dart';
 
 class AdminDashboardView extends StatelessWidget {
   const AdminDashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final repository = getIt<AdminRepository>();
+
+    // Show setup dialog if no organization exists
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final orgId = await repository.syncOrganizationId();
+      
+      if (orgId == null && context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => OrganizationSetupDialog(
+            repository: repository,
+            onSetupComplete: () {
+              Navigator.pop(context);
+              context.read<DashboardBloc>().add(LoadDashboardStats());
+            },
+          ),
+        );
+      }
+    });
+
     return BlocProvider(
       create: (context) => DashboardBloc(getIt<AdminRepository>())..add(LoadDashboardStats()),
       child: SharedScaffold(

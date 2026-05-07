@@ -10,7 +10,7 @@ class BatchBloc extends Bloc<BatchEvent, BatchState> {
     on<LoadBatches>((event, emit) async {
       emit(BatchLoading());
       try {
-        final batches = await _repository.getBatches('arlith-default');
+        final batches = await _repository.getBatches();
         emit(BatchesLoaded(batches));
       } catch (e) {
         emit(BatchFailure(e.toString()));

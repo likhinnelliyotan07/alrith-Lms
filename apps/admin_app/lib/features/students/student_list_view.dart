@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/student_bloc.dart';
 import 'bloc/student_event.dart';
 import 'bloc/student_state.dart';
+import 'widgets/add_student_dialog.dart';
 
 class StudentListView extends StatelessWidget {
   const StudentListView({super.key});
@@ -81,7 +82,6 @@ class StudentListView extends StatelessWidget {
           columns: [
             DataColumn(label: Text('Name', style: AppTextStyles.label.copyWith(fontWeight: FontWeight.bold))),
             DataColumn(label: Text('Email', style: AppTextStyles.label.copyWith(fontWeight: FontWeight.bold))),
-            DataColumn(label: Text('Batch', style: AppTextStyles.label.copyWith(fontWeight: FontWeight.bold))),
             DataColumn(label: Text('Status', style: AppTextStyles.label.copyWith(fontWeight: FontWeight.bold))),
             DataColumn(label: Text('Actions', style: AppTextStyles.label.copyWith(fontWeight: FontWeight.bold))),
           ],
@@ -101,7 +101,6 @@ class StudentListView extends StatelessWidget {
                 ),
               ),
               DataCell(Text(student.email, style: AppTextStyles.bodyS)),
-              DataCell(Text('Batch A', style: AppTextStyles.bodyS)), // Placeholder
               DataCell(_buildStatusBadge('Active')),
               DataCell(Row(
                 children: [
@@ -139,33 +138,12 @@ class StudentListView extends StatelessWidget {
   void _showAddStudentDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Add New Student', style: AppTextStyles.h3),
-        content: SizedBox(
-          width: 400.w,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const AppTextField(label: 'Full Name', hint: 'Enter full name'),
-              SizedBox(height: 16.h),
-              const AppTextField(label: 'Email', hint: 'Enter email address', keyboardType: TextInputType.emailAddress),
-              SizedBox(height: 16.h),
-              const AppTextField(label: 'Initial Password', hint: 'Enter password', obscureText: true),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-          AppButton(
-            text: 'Save Student',
-            isFullWidth: false,
-            width: 140.w,
-            onPressed: () {
-              // Implementation for saving student
-              Navigator.pop(context);
-            },
-          ),
-        ],
+      builder: (dlgContext) => AddStudentDialog(
+        repository: getIt<AdminRepository>(),
+        onSuccess: () {
+          Navigator.pop(dlgContext);
+          context.read<StudentBloc>().add(const LoadStudents());
+        },
       ),
     );
   }
