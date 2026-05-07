@@ -20,6 +20,12 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Unit>> resetPassword(String email);
 
+  Future<Either<Failure, Unit>> signUp({
+    required String name,
+    required String email,
+    required String password,
+  });
+
   Future<void> signOut();
 
   Future<Profile> getProfile(String userId);
@@ -49,7 +55,18 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       if (response.user != null) {
-        final profile = await getProfile(response.user!.id);
+        Profile? profile;
+        try {
+          profile = await getProfile(response.user!.id);
+        } catch (e) {
+          // Only create if NOT found (PostgrestException with code 406)
+          if (e.toString().contains('406') || e.toString().contains('not found')) {
+            profile = await _createInitialProfile(response.user!);
+          } else {
+            // If it's a different error (like parsing), rethrow to see what's wrong
+            rethrow;
+          }
+        }
         return Right(profile);
       }
       return const Left(ServerFailure('Login failed'));
@@ -134,6 +151,55 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signUp({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _client.auth.signUp(
+        email: email,
+        password: password,
+        data: {'full_name': name},
+      );
+      
+      if (response.user != null) {
+        // Ensure profile record is created
+        await _createInitialProfile(response.user!);
+        return const Right(unit);
+      }
+      return const Left(ServerFailure('Signup failed'));
+    } on supabase.AuthException catch (e) {
+      return Left(AuthFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  Future<Profile> _createInitialProfile(supabase.User user) async {
+    final name = user.userMetadata?['full_name'] ?? user.email?.split('@').first ?? 'User';
+    
+    String? orgId;
+    try {
+      final orgs = await _client.from('organizations').select('id').limit(1);
+      if ((orgs as List).isNotEmpty) {
+        orgId = orgs.first['id'];
+      }
+    } catch (_) {}
+
+    final profileMap = {
+      'id': user.id,
+      'email': user.email,
+      'full_name': name,
+      'role': 'student',
+      'organization_id': orgId,
+    };
+
+    await _client.from('user_profiles').insert(profileMap);
+    return Profile.fromJson(profileMap);
   }
 
   @override

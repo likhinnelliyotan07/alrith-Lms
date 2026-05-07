@@ -88,5 +88,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (_) => emit(AuthPasswordResetSuccess()),
       );
     });
+
+    on<AuthSignedUp>((event, emit) async {
+      emit(AuthLoading());
+      final result = await _authRepository.signUp(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+      );
+      result.fold(
+        (failure) => emit(AuthFailure(failure.toString())),
+        (_) => emit(Unauthenticated()), // Show login after signup
+      );
+    });
   }
 }

@@ -5,9 +5,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 @lazySingleton
 class SupabaseService {
   Future<void> initialize() async {
+    final url = dotenv.maybeGet('SUPABASE_URL');
+    final anonKey = dotenv.maybeGet('SUPABASE_ANON_KEY');
+    
+    if (url == null || anonKey == null) {
+      throw Exception('Supabase configuration missing in .env file. Expected SUPABASE_URL and SUPABASE_ANON_KEY.');
+    }
+
     await Supabase.initialize(
-      url: dotenv.get('SUPABASE_URL'),
-      anonKey: dotenv.get('SUPABASE_ANON_KEY'),
+      url: url,
+      anonKey: anonKey,
     );
   }
 

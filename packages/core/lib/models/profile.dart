@@ -10,12 +10,12 @@ class Profile with _$Profile {
   const factory Profile({
     required String id,
     required String email,
-    required String fullName,
-    String? avatarUrl,
+    @JsonKey(name: 'full_name') required String fullName,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
     required UserRole role,
-    String? phoneNumber,
-    String? organizationId,
-    DateTime? createdAt,
+    @JsonKey(name: 'phone_number') String? phoneNumber,
+    @JsonKey(name: 'organization_id') String? organizationId,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
     Map<String, dynamic>? metadata,
   }) = _Profile;
 

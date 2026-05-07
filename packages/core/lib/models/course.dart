@@ -11,12 +11,12 @@ class Course with _$Course {
     required String title,
     required String description,
     String? thumbnail,
-    required String organizationId,
-    @Default([]) List<String> teacherIds,
+    @JsonKey(name: 'organization_id') required String organizationId,
+    @JsonKey(name: 'teacher_ids') @Default([]) List<String> teacherIds,
     @Default(0) double price,
-    @Default(true) bool isActive,
+    @JsonKey(name: 'is_active') @Default(true) bool isActive,
     @Default([]) List<Subject> subjects,
-    DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _Course;
 
   factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);

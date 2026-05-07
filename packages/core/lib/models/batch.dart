@@ -9,13 +9,13 @@ class Batch with _$Batch {
   const factory Batch({
     required String id,
     required String name,
-    required String courseId,
-    required DateTime startDate,
-    DateTime? endDate,
+    @JsonKey(name: 'course_id') required String courseId,
+    @JsonKey(name: 'start_date') required DateTime startDate,
+    @JsonKey(name: 'end_date') DateTime? endDate,
     @Default(30) int capacity,
-    @Default(0) int enrolledCount,
+    @JsonKey(name: 'enrolled_count') @Default(0) int enrolledCount,
     @Default([]) List<Schedule> schedules,
-    required String organizationId,
+    @JsonKey(name: 'organization_id') required String organizationId,
   }) = _Batch;
 
   factory Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);

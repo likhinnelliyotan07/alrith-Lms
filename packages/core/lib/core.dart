@@ -19,6 +19,7 @@ export 'theme/theme_cubit.dart';
 export 'widgets/shared_scaffold.dart';
 export 'widgets/glass_card.dart';
 export 'widgets/premium_login_view.dart';
+export 'widgets/premium_signup_view.dart';
 export 'widgets/neumorphic_container.dart';
 export 'widgets/animated_dashboard_card.dart';
 export 'widgets/white_label_onboarding_view.dart';
@@ -65,8 +66,22 @@ class ArlithCore {
     await Hive.initFlutter();
     
     // Load .env
-
-    await dotenv.load(fileName: ".env");
+    try {
+      debugPrint('CORE: Loading .env from assets/.env...');
+      await dotenv.load(fileName: "assets/.env");
+      debugPrint('CORE: .env loaded successfully');
+    } catch (e) {
+      debugPrint('CORE: Error loading .env: $e');
+      // If it fails, maybe try the root one as fallback or just rethrow
+      try {
+        debugPrint('CORE: Attempting fallback to .env...');
+        await dotenv.load(fileName: ".env");
+        debugPrint('CORE: .env loaded from root');
+      } catch (e2) {
+        debugPrint('CORE: Fallback failed: $e2');
+        rethrow;
+      }
+    }
     
     // Setup DI
     configureDependencies();

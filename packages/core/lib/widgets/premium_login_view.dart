@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_gradients.dart';
@@ -15,6 +16,7 @@ class PremiumLoginView extends StatefulWidget {
   final VoidCallback onAppleLogin;
   final String? lottieAsset;
   final bool isLoading;
+  final String? errorMessage;
 
   const PremiumLoginView({
     super.key,
@@ -25,6 +27,7 @@ class PremiumLoginView extends StatefulWidget {
     required this.onAppleLogin,
     this.lottieAsset,
     this.isLoading = false,
+    this.errorMessage,
   });
 
   @override
@@ -85,6 +88,29 @@ class _PremiumLoginViewState extends State<PremiumLoginView> {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 32.h),
+                          if (widget.errorMessage != null) ...[
+                            Container(
+                              padding: EdgeInsets.all(12.w),
+                              decoration: BoxDecoration(
+                                color: Colors.red.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.red.withOpacity(0.3)),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.error_outline, color: Colors.redAccent),
+                                  SizedBox(width: 12.w),
+                                  Expanded(
+                                    child: Text(
+                                      widget.errorMessage!,
+                                      style: const TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
                           if (_isEmailLogin) ...[
                             _buildGlassTextField(
                               controller: _emailController,
@@ -198,7 +224,7 @@ class _PremiumLoginViewState extends State<PremiumLoginView> {
                           style: TextStyle(color: Colors.white70),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => context.push('/signup'),
                           child: const Text(
                             AppStrings.signUp,
                             style: TextStyle(
