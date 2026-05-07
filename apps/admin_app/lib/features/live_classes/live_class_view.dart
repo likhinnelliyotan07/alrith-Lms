@@ -103,7 +103,6 @@ class LiveClassView extends StatelessWidget {
                             height: 44.h,
                             gradient: isOngoing ? AppGradients.primary : null,
                             color: isOngoing ? null : Colors.grey[200],
-                            textColor: isOngoing ? Colors.white : Colors.black87,
                             onPressed: () {},
                           ),
                         ],

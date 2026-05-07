@@ -53,11 +53,9 @@ class AppRouter {
   );
 }
 
-
 class _AuthBlocListenable extends ChangeNotifier {
   _AuthBlocListenable(AuthBloc bloc) {
     bloc.stream.listen((_) => notifyListeners());
   }
 }
-
 

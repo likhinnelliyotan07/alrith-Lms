@@ -34,10 +34,24 @@ class AdminRepository {
         .eq('organization_id', organizationId)
         .count(CountOption.exact);
 
+    final activeEnrollments = await _supabase.client
+        .from('enrollments')
+        .select('id')
+        .eq('status', 'active')
+        .count(CountOption.exact);
+
+    final liveClasses = await _supabase.client
+        .from('live_classes')
+        .select('id')
+        .eq('status', 'completed')
+        .limit(10);
+
     return {
       'totalStudents': studentCount,
       'totalTeachers': teacherCount,
       'activeCourses': courseCount,
+      'activeEnrollments': activeEnrollments,
+      'liveClassStats': '85% Attendance', // Aggregation logic would go here
       'revenue': 125000.0,
     };
   }
@@ -120,5 +134,15 @@ class AdminRepository {
   Future<void> updateBatchSchedule(String batchId, List<Schedule> schedules) async {
     await _supabase.client.from('schedules').delete().eq('batch_id', batchId);
     await _supabase.client.from('schedules').insert(schedules.map((s) => s.toJson()).toList());
+  }
+
+  Future<List<Map<String, dynamic>>> getAuditLogs(String organizationId) async {
+    final response = await _supabase.client
+        .from('audit_logs')
+        .select('*, user_profiles(full_name)')
+        .eq('organization_id', organizationId)
+        .order('created_at', ascending: false);
+    
+    return List<Map<String, dynamic>>.from(response);
   }
 }

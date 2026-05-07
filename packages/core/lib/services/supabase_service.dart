@@ -12,6 +12,11 @@ class SupabaseService {
   }
 
   SupabaseClient get client => Supabase.instance.client;
+  
+  String? get currentOrganizationId {
+    final user = client.auth.currentUser;
+    return user?.userMetadata?['organization_id'] as String?;
+  }
 
   GoTrueClient get auth => client.auth;
   

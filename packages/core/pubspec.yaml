@@ -30,6 +30,8 @@ dependencies:
   path_provider: ^2.1.5
   fl_chart: ^0.70.2
   local_auth: ^2.3.0
+  pdf: ^3.11.1
+  printing: ^5.13.4
 
 
 

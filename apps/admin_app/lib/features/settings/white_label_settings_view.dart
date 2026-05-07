@@ -133,7 +133,7 @@ class _WhiteLabelSettingsViewState extends State<WhiteLabelSettingsView> {
       builder: (context, state) {
         return SwitchListTile(
           title: const Text('Force Dark Mode'),
-          value: state.isDarkMode,
+          value: state.themeMode == ThemeMode.dark,
           onChanged: (val) {
             context.read<ThemeCubit>().toggleTheme();
           },

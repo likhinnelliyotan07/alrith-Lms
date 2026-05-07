@@ -13,6 +13,10 @@ import '../features/courses/course_detail_view.dart';
 import '../features/batches/batch_list_view.dart';
 import '../features/batches/timetable_view.dart';
 import '../features/settings/white_label_settings_view.dart';
+import '../features/parents/parent_list_view.dart';
+import '../features/finance/finance_dashboard_view.dart';
+import '../features/communication/communication_view.dart';
+import '../features/settings/audit_log_view.dart';
 
 
 @module
@@ -57,6 +61,22 @@ abstract class AdminModule {
         GoRoute(
           path: '/settings',
           builder: (context, state) => const WhiteLabelSettingsView(),
+        ),
+        GoRoute(
+          path: '/parents',
+          builder: (context, state) => const ParentListView(),
+        ),
+        GoRoute(
+          path: '/financials',
+          builder: (context, state) => const FinanceDashboardView(),
+        ),
+        GoRoute(
+          path: '/communications',
+          builder: (context, state) => const CommunicationView(),
+        ),
+        GoRoute(
+          path: '/settings/audit-logs',
+          builder: (context, state) => const AuditLogView(),
         ),
       ],
     );

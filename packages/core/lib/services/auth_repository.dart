@@ -62,10 +62,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Profile> getProfile(String userId) async {
-    final response = await _client
-        .from('profiles')
-        .select()
-        .eq('id', userId)
+      final response = await _client
+          .from('user_profiles')
+          .select()
+          .eq('id', userId)
         .single();
     return Profile.fromJson(response);
   }

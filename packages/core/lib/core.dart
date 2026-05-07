@@ -35,9 +35,17 @@ export 'models/batch.dart';
 export 'models/subject.dart';
 export 'models/schedule.dart';
 export 'models/notification.dart';
+export 'models/invoice.dart';
+export 'models/coupon.dart';
+export 'models/audit_log.dart';
 export 'repositories/admin_repository.dart';
+export 'repositories/finance_repository.dart';
+export 'repositories/parent_repository.dart';
+export 'repositories/communication_repository.dart';
 export 'services/auth_repository.dart';
 export 'services/biometric_service.dart';
+export 'services/invoice_service.dart';
+export 'theme/app_theme.dart';
 export 'auth/bloc/auth_bloc.dart';
 
 
