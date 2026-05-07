@@ -1,0 +1,60 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+
+# Generated files
+*.freezed.dart
+*.g.dart
+*.config.dart
+*.injectable.config.dart
+
+# Sensitive information
+.env*
+
+# Android
+.gradle/
+local.properties
+*.keystore
+*.jks
+*.properties
+!/gradle.properties
+
+# iOS/macOS
+*.swp
+*.lock
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+DerivedData/
+Podfile.lock
+Pods/
+ServiceDefinitions.json
+Runner/GeneratedPluginRegistrant.h
+Runner/GeneratedPluginRegistrant.m
+
+# Windows
+build/
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.iws
+
+# IDE - VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
