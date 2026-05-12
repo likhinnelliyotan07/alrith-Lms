@@ -4,8 +4,8 @@ part 'notification.freezed.dart';
 part 'notification.g.dart';
 
 @freezed
-class AppNotification with _$AppNotification {
-  const factory AppNotification({
+abstract class AppNotification with _$AppNotification {
+  factory AppNotification({
     required String id,
     required String userId,
     required String title,
@@ -13,7 +13,7 @@ class AppNotification with _$AppNotification {
     required DateTime createdAt,
     @Default(false) bool isRead,
     String? type,
-  }) = _AppNotification;
+  }) = _$AppNotificationImpl;
 
   factory AppNotification.fromJson(Map<String, dynamic> json) => _$AppNotificationFromJson(json);
 }

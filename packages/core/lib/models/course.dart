@@ -5,8 +5,8 @@ part 'course.freezed.dart';
 part 'course.g.dart';
 
 @freezed
-class Course with _$Course {
-  const factory Course({
+abstract class Course with _$Course {
+  factory Course({
     required String id,
     required String title,
     required String description,
@@ -17,7 +17,7 @@ class Course with _$Course {
     @JsonKey(name: 'is_active') @Default(true) bool isActive,
     @Default([]) List<Subject> subjects,
     @JsonKey(name: 'created_at') DateTime? createdAt,
-  }) = _Course;
+  }) = _$CourseImpl;
 
   factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
 }

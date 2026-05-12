@@ -4,8 +4,8 @@ part 'audit_log.freezed.dart';
 part 'audit_log.g.dart';
 
 @freezed
-class AuditLog with _$AuditLog {
-  const factory AuditLog({
+abstract class AuditLog with _$AuditLog {
+  factory AuditLog({
     required String id,
     String? organizationId,
     String? userId,
@@ -16,7 +16,7 @@ class AuditLog with _$AuditLog {
     String? ipAddress,
     DateTime? createdAt,
     String? userName, // Joined field
-  }) = _AuditLog;
+  }) = _$AuditLogImpl;
 
   factory AuditLog.fromJson(Map<String, dynamic> json) => _$AuditLogFromJson(json);
 }

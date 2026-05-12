@@ -6,8 +6,8 @@ part 'profile.g.dart';
 enum UserRole { admin, teacher, student, parent }
 
 @freezed
-class Profile with _$Profile {
-  const factory Profile({
+abstract class Profile with _$Profile {
+  factory Profile({
     required String id,
     required String email,
     @JsonKey(name: 'full_name') required String fullName,
@@ -17,7 +17,7 @@ class Profile with _$Profile {
     @JsonKey(name: 'organization_id') String? organizationId,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     Map<String, dynamic>? metadata,
-  }) = _Profile;
+  }) = _$ProfileImpl;
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
 }

@@ -15,10 +15,8 @@ class BiometricService {
     try {
       return await _auth.authenticate(
         localizedReason: 'Please authenticate to access Arlith LMS',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-          biometricOnly: true,
-        ),
+        biometricOnly: true,
+        persistAcrossBackgrounding: true,
       );
     } catch (e) {
       return false;

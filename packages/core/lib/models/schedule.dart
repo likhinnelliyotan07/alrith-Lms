@@ -6,8 +6,8 @@ part 'schedule.g.dart';
 enum DayOfWeek { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
 @freezed
-class Schedule with _$Schedule {
-  const factory Schedule({
+abstract class Schedule with _$Schedule {
+  factory Schedule({
     required String id,
     required String batchId,
     required DayOfWeek day,
@@ -16,7 +16,7 @@ class Schedule with _$Schedule {
     String? subjectId,
     String? teacherId,
     String? roomNumber,
-  }) = _Schedule;
+  }) = _$ScheduleImpl;
 
   factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
 }

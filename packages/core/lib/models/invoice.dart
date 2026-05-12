@@ -4,8 +4,8 @@ part 'invoice.freezed.dart';
 part 'invoice.g.dart';
 
 @freezed
-class Invoice with _$Invoice {
-  const factory Invoice({
+abstract class Invoice with _$Invoice {
+  factory Invoice({
     required String id,
     required String organizationId,
     required String studentId,
@@ -18,7 +18,7 @@ class Invoice with _$Invoice {
     String? pdfUrl,
     DateTime? createdAt,
     String? studentName, // Joined field
-  }) = _Invoice;
+  }) = _$InvoiceImpl;
 
   factory Invoice.fromJson(Map<String, dynamic> json) => _$InvoiceFromJson(json);
 }

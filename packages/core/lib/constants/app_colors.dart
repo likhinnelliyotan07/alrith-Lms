@@ -33,6 +33,13 @@ class AppColors {
   static const Color textPrimaryDark = Color(0xFFF8FAFC);
   static const Color textSecondaryDark = Color(0xFFCBD5E1);
 
+  // Admin Redesign Colors
+  static const Color adminPrimary = Color(0xFF0052FF);
+  static const Color adminSecondary = Color(0xFF9333EA);
+  static const Color adminDarkBg = Color(0xFF0B0E14);
+  static const Color adminCardDark = Color(0xFF151921);
+  static const Color adminInputDark = Color(0xFF1E232D);
+
   // Glassmorphism Colors
   static Color glassBackground = Colors.white.withOpacity(0.1);
   static Color glassBorder = Colors.white.withOpacity(0.2);

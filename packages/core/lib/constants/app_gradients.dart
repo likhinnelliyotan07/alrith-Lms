@@ -40,4 +40,42 @@ class AppGradients {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+
+  static const LinearGradient adminLeftSection = LinearGradient(
+    colors: [
+      Color(0xFFE0E7FF),
+      Color(0xFFF5F3FF),
+      Color(0xFFFFFFFF),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const LinearGradient adminLeftSectionDark = LinearGradient(
+    colors: [
+      Color(0xFF1E1B4B),
+      Color(0xFF312E81),
+      Color(0xFF1E1B4B),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const LinearGradient adminPrimaryGradient = LinearGradient(
+    colors: [
+      Color(0xFF0052FF),
+      Color(0xFF4F46E5),
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+
+  static const LinearGradient adminDarkButton = LinearGradient(
+    colors: [
+      Color(0xFF9333EA),
+      Color(0xFF4F46E5),
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
 }

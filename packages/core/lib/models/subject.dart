@@ -4,26 +4,26 @@ part 'subject.freezed.dart';
 part 'subject.g.dart';
 
 @freezed
-class Subject with _$Subject {
-  const factory Subject({
+abstract class Subject with _$Subject {
+  factory Subject({
     required String id,
     required String courseId,
     required String title,
     String? description,
     @Default([]) List<Module> modules,
-  }) = _Subject;
+  }) = _$SubjectImpl;
 
   factory Subject.fromJson(Map<String, dynamic> json) => _$SubjectFromJson(json);
 }
 
 @freezed
-class Module with _$Module {
-  const factory Module({
+abstract class Module with _$Module {
+  factory Module({
     required String id,
     required String subjectId,
     required String title,
     @Default([]) List<ContentItem> contents,
-  }) = _Module;
+  }) = _$ModuleImpl;
 
   factory Module.fromJson(Map<String, dynamic> json) => _$ModuleFromJson(json);
 }
@@ -31,8 +31,8 @@ class Module with _$Module {
 enum ContentType { video, pdf, note, assignment, quiz, exam }
 
 @freezed
-class ContentItem with _$ContentItem {
-  const factory ContentItem({
+abstract class ContentItem with _$ContentItem {
+  factory ContentItem({
     required String id,
     required String moduleId,
     required String title,
@@ -42,7 +42,7 @@ class ContentItem with _$ContentItem {
     @Default(false) bool isLocked,
     @Default(0) int durationMinutes, // for videos
     String? fileName, // for PDFs/Notes
-  }) = _ContentItem;
+  }) = _$ContentItemImpl;
 
   factory ContentItem.fromJson(Map<String, dynamic> json) => _$ContentItemFromJson(json);
 }

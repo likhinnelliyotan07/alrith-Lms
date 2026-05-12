@@ -1,9 +1,9 @@
-import 'package:core/widgets/premium_signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import '../widgets/premium_login_view.dart';
+import '../widgets/admin_login_view.dart';
+import '../widgets/premium_signup_view.dart';
 import '../auth/bloc/auth_bloc.dart';
 import '../auth/bloc/auth_event.dart';
 import '../auth/bloc/auth_state.dart';
@@ -40,7 +40,7 @@ class AppRouter {
         builder: (context, state) => BlocBuilder<AuthBloc, AuthState>(
           bloc: _authBloc,
           builder: (context, authState) {
-            return PremiumLoginView(
+            return AdminLoginView(
               isLoading: authState is AuthLoading,
               errorMessage: authState is AuthFailure ? authState.message : null,
               onEmailLogin: (email, password) => _authBloc.add(AuthLoggedIn(email, password)),
@@ -80,4 +80,3 @@ class _AuthBlocListenable extends ChangeNotifier {
     bloc.stream.listen((_) => notifyListeners());
   }
 }
-

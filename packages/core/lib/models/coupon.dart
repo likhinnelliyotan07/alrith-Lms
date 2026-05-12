@@ -4,8 +4,8 @@ part 'coupon.freezed.dart';
 part 'coupon.g.dart';
 
 @freezed
-class Coupon with _$Coupon {
-  const factory Coupon({
+abstract class Coupon with _$Coupon {
+  factory Coupon({
     required String id,
     required String organizationId,
     required String code,
@@ -16,7 +16,7 @@ class Coupon with _$Coupon {
     int? usageLimit,
     @Default(0) int usedCount,
     DateTime? createdAt,
-  }) = _Coupon;
+  }) = _$CouponImpl;
 
   factory Coupon.fromJson(Map<String, dynamic> json) => _$CouponFromJson(json);
 }

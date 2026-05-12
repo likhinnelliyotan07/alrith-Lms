@@ -5,8 +5,8 @@ part 'batch.freezed.dart';
 part 'batch.g.dart';
 
 @freezed
-class Batch with _$Batch {
-  const factory Batch({
+abstract class Batch with _$Batch {
+  factory Batch({
     required String id,
     required String name,
     @JsonKey(name: 'course_id') required String courseId,
@@ -16,7 +16,7 @@ class Batch with _$Batch {
     @JsonKey(name: 'enrolled_count') @Default(0) int enrolledCount,
     @Default([]) List<Schedule> schedules,
     @JsonKey(name: 'organization_id') required String organizationId,
-  }) = _Batch;
+  }) = _$BatchImpl;
 
   factory Batch.fromJson(Map<String, dynamic> json) => _$BatchFromJson(json);
 }
